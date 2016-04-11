@@ -39,8 +39,9 @@ class PageRuleConverter extends AbstractRuleConverter<CSSPageRuleImpl, StyleRule
             properties.add(new StyleProperty(property.getName(), property.getValue().getCssText()));
         }
         String selector = "@page";
-        if (StringUtils.isNotEmpty(rule.getSelectorText())) {
-            selector += ' ' + rule.getSelectorText();
+        final String selectorText = rule.getSelectorText();
+        if (StringUtils.isNotEmpty(selectorText)) {
+            selector += ' ' + selectorText;
         }
         return new StyleRule(Arrays.asList(selector), properties);
     }

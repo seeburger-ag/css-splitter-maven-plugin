@@ -22,12 +22,12 @@ abstract class AbstractRuleCounter<T extends NodeRule> implements RuleCounter<T>
         this.clazz = clazz;
     }
 
-    public final Class<T> getSupportedType() {
-        return clazz;
+    public boolean isSupportedType(final NodeRule rule) {
+        return rule != null && rule.getClass() == clazz;
     }
 
     public int count(final NodeRule rule) {
-        if (rule.getClass() != clazz) {
+        if (!isSupportedType(rule)) {
             throw new UnsupportedRuleException(rule);
         }
         return count2(clazz.cast(rule));
