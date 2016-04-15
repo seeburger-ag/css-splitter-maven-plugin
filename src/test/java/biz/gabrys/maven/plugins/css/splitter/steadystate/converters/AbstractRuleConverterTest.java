@@ -26,7 +26,7 @@ public final class AbstractRuleConverterTest {
 
     private static class RuleConverterImpl extends AbstractRuleConverter<CSSCharsetRuleImpl, NodeRule> {
 
-        protected RuleConverterImpl() {
+        RuleConverterImpl() {
             super(CSSCharsetRuleImpl.class);
         }
 

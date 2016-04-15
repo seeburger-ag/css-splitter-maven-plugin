@@ -46,7 +46,7 @@ public final class AbstractRulePropertiesLimitValidatorTest {
 
     private static class TestValidator<T extends NodeRule> extends AbstractRulePropertiesLimitValidator<T> {
 
-        protected TestValidator(final Class<T> clazz) {
+        TestValidator(final Class<T> clazz) {
             super(clazz);
         }
 

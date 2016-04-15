@@ -35,7 +35,7 @@ public final class RulesLimitValidator {
     public void validate(final StyleSheet stylesheet) throws ValidationException {
         final int value = count(stylesheet);
         if (value > limit) {
-            throw new ValidationException(String.format("The number of style rules (%d) exceeded the allowable limit (%d).", value, limit));
+            throw new ValidationException(String.format("The number of style rules (%d) exceeded the allowable limit (%d)!", value, limit));
         }
     }
 

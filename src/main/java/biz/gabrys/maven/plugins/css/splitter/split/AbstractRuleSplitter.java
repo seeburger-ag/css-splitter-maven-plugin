@@ -29,7 +29,7 @@ abstract class AbstractRuleSplitter<T extends NodeRule> implements RuleSplitter<
     public final SplitResult<T> split(final NodeRule rule, final int splitAfter) {
         if (rule.getClass() != clazz) {
             throw new IllegalArgumentException(
-                    String.format("Cannot cast an instance of the %s to the %s class.", rule.getClass().getName(), clazz.getName()));
+                    String.format("Cannot cast an instance of the %s to the %s class!", rule.getClass().getName(), clazz.getName()));
         }
         return split2(clazz.cast(rule), splitAfter);
     }

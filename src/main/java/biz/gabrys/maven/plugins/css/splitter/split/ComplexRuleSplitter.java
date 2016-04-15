@@ -50,16 +50,15 @@ class ComplexRuleSplitter extends AbstractRuleSplitter<ComplexRule> {
     RulesContainer splitRules(final List<StyleRule> rules, final int splitAfter) {
         final RulesContainer container = new RulesContainer();
         final ValueAndIndex info = new ValueAndIndex(splitAfter);
-        processBeforeSplitPoint(rules, container.first, info);
+        processBeforeSplitPoint(rules, container, info);
         if (info.value != 0) {
             processSplitPoint(rules, container, info);
         }
-        processAfterSplitPoint(rules, container.second, info);
+        processAfterSplitPoint(rules, container, info);
         return container;
     }
 
-    private void processBeforeSplitPoint(final List<StyleRule> rules, final List<StyleRule> beforeSplitPointRules,
-            final ValueAndIndex info) {
+    private void processBeforeSplitPoint(final List<StyleRule> rules, final RulesContainer container, final ValueAndIndex info) {
         while (true) {
             final StyleRule styleRule = rules.get(info.index);
             final int count = counter.count(styleRule);
@@ -67,9 +66,9 @@ class ComplexRuleSplitter extends AbstractRuleSplitter<ComplexRule> {
             if (odds < 0) {
                 break;
             }
-            beforeSplitPointRules.add(styleRule);
-            ++info.index;
+            container.first.add(styleRule);
             info.value = odds;
+            ++info.index;
         }
     }
 
@@ -81,10 +80,16 @@ class ComplexRuleSplitter extends AbstractRuleSplitter<ComplexRule> {
         container.second.add(result.getSecond());
     }
 
-    private void processAfterSplitPoint(final List<StyleRule> rules, final List<StyleRule> afterSplitPointRules, final ValueAndIndex info) {
+    private static void processAfterSplitPoint(final List<StyleRule> rules, final RulesContainer container, final ValueAndIndex info) {
         if (info.index < rules.size()) {
-            afterSplitPointRules.addAll(rules.subList(info.index, rules.size()));
+            container.second.addAll(rules.subList(info.index, rules.size()));
         }
+    }
+
+    static class RulesContainer {
+
+        protected final List<StyleRule> first = new LinkedList<StyleRule>();
+        protected final List<StyleRule> second = new LinkedList<StyleRule>();
     }
 
     private static class ValueAndIndex {
@@ -95,11 +100,5 @@ class ComplexRuleSplitter extends AbstractRuleSplitter<ComplexRule> {
         ValueAndIndex(final int value) {
             this.value = value;
         }
-    }
-
-    static class RulesContainer {
-
-        protected final List<StyleRule> first = new LinkedList<StyleRule>();
-        protected final List<StyleRule> second = new LinkedList<StyleRule>();
     }
 }
