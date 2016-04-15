@@ -35,7 +35,6 @@ public class Splliter {
         counter = new AnyRuleCounter();
         addSplitter(new ComplexRuleSplitter());
         addSplitter(new StyleRuleSplitter());
-        addSplitter(new UnknownRuleSplitter());
     }
 
     private void addSplitter(final RuleSplitter<? extends NodeRule> splitter) {
@@ -74,9 +73,12 @@ public class Splliter {
             if (odds == 0) {
                 currentRules.add(rule);
                 rule = rule.getNext();
-            } else {
+            } else if (splitters.containsKey(rule.getClass())) {
                 final SplitResult<? extends NodeRule> result = splitters.get(rule.getClass()).split(rule, value);
-                currentRules.add(result.getFirst());
+                final NodeRule firstRule = result.getFirst();
+                if (firstRule != null) {
+                    currentRules.add(firstRule);
+                }
                 rule = result.getSecond();
             }
             value = limit;

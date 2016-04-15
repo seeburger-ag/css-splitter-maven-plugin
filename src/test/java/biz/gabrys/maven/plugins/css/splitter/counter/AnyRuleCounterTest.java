@@ -18,13 +18,11 @@ public final class AnyRuleCounterTest {
     public void count_ruleIsSupported_returnsCountedValue() {
         final NodeRule rule = Mockito.mock(NodeRule.class);
 
-        final List<RuleCounter<?>> counters = new ArrayList<RuleCounter<?>>();
-        @SuppressWarnings("unchecked")
-        final RuleCounter<NodeRule> unusedCounter = Mockito.mock(RuleCounter.class);
+        final List<RuleCounter> counters = new ArrayList<RuleCounter>();
+        final RuleCounter unusedCounter = Mockito.mock(RuleCounter.class);
         Mockito.when(unusedCounter.isSupportedType(rule)).thenReturn(false);
         counters.add(unusedCounter);
-        @SuppressWarnings("unchecked")
-        final RuleCounter<StyleRule> styleCounter = Mockito.mock(RuleCounter.class);
+        final RuleCounter styleCounter = Mockito.mock(RuleCounter.class);
         Mockito.when(styleCounter.isSupportedType(rule)).thenReturn(true);
         final int count = 2;
         Mockito.when(styleCounter.count(rule)).thenReturn(count);
@@ -42,9 +40,8 @@ public final class AnyRuleCounterTest {
     public void count_ruleIsNotSupported_returnsZero() {
         final StyleRule rule = new StyleRule(Collections.<String>emptyList(), Collections.<StyleProperty>emptyList());
 
-        final List<RuleCounter<?>> counters = new ArrayList<RuleCounter<?>>();
-        @SuppressWarnings("unchecked")
-        final RuleCounter<NodeRule> unusedCounter = Mockito.mock(RuleCounter.class);
+        final List<RuleCounter> counters = new ArrayList<RuleCounter>();
+        final RuleCounter unusedCounter = Mockito.mock(RuleCounter.class);
         Mockito.when(unusedCounter.isSupportedType(rule)).thenReturn(false);
         counters.add(unusedCounter);
 

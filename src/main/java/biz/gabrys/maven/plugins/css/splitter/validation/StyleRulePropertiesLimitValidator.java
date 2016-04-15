@@ -18,14 +18,14 @@ import biz.gabrys.maven.plugins.css.splitter.css.types.StyleRule;
 
 final class StyleRulePropertiesLimitValidator extends AbstractRulePropertiesLimitValidator<StyleRule> {
 
-    private final RuleCounter<StyleRule> counter;
+    private final RuleCounter counter;
 
     StyleRulePropertiesLimitValidator() {
         this(new StyleRuleCounter());
     }
 
     // for tests
-    StyleRulePropertiesLimitValidator(final RuleCounter<StyleRule> counter) {
+    StyleRulePropertiesLimitValidator(final RuleCounter counter) {
         super(StyleRule.class);
         this.counter = counter;
     }

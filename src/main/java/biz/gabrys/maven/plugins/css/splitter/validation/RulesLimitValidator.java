@@ -19,7 +19,7 @@ import biz.gabrys.maven.plugins.css.splitter.css.types.StyleSheet;
 
 public final class RulesLimitValidator {
 
-    private final RuleCounter<NodeRule> counter;
+    private final RuleCounter counter;
     private final int limit;
 
     public RulesLimitValidator(final int limit) {
@@ -27,7 +27,7 @@ public final class RulesLimitValidator {
     }
 
     // for tests
-    RulesLimitValidator(final int limit, final RuleCounter<NodeRule> counter) {
+    RulesLimitValidator(final int limit, final RuleCounter counter) {
         this.limit = limit;
         this.counter = counter;
     }

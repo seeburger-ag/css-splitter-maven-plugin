@@ -18,17 +18,17 @@ import java.util.List;
 
 import biz.gabrys.maven.plugins.css.splitter.css.types.NodeRule;
 
-public class AnyRuleCounter implements RuleCounter<NodeRule> {
+public class AnyRuleCounter implements RuleCounter {
 
-    private final List<RuleCounter<?>> counters;
+    private final List<RuleCounter> counters;
 
     public AnyRuleCounter() {
-        this(Arrays.<RuleCounter<?>>asList(new ComplexRuleCounter(), new StyleRuleCounter(), new UnknownRuleCounter()));
+        this(Arrays.<RuleCounter>asList(new ComplexRuleCounter(), new StyleRuleCounter(), new UnknownRuleCounter()));
     }
 
     // for tests
-    AnyRuleCounter(final List<RuleCounter<?>> counters) {
-        this.counters = new ArrayList<RuleCounter<?>>(counters);
+    AnyRuleCounter(final List<RuleCounter> counters) {
+        this.counters = new ArrayList<RuleCounter>(counters);
     }
 
     public boolean isSupportedType(final NodeRule rule) {
@@ -36,7 +36,7 @@ public class AnyRuleCounter implements RuleCounter<NodeRule> {
     }
 
     public int count(final NodeRule rule) {
-        for (final RuleCounter<?> counter : counters) {
+        for (final RuleCounter counter : counters) {
             if (counter.isSupportedType(rule)) {
                 return counter.count(rule);
             }

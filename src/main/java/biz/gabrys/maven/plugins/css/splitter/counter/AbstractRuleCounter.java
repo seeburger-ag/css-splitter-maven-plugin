@@ -14,7 +14,7 @@ package biz.gabrys.maven.plugins.css.splitter.counter;
 
 import biz.gabrys.maven.plugins.css.splitter.css.types.NodeRule;
 
-abstract class AbstractRuleCounter<T extends NodeRule> implements RuleCounter<T> {
+abstract class AbstractRuleCounter<T extends NodeRule> implements RuleCounter {
 
     private final Class<T> clazz;
 

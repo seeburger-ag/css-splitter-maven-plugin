@@ -10,8 +10,7 @@ public final class StyleRulePropertiesLimitValidatorTest {
 
     @Test
     public void validate2_ruleIsSplittable_doesNothing() throws ValidationException {
-        @SuppressWarnings("unchecked")
-        final RuleCounter<StyleRule> counter = Mockito.mock(RuleCounter.class);
+        final RuleCounter counter = Mockito.mock(RuleCounter.class);
         final StyleRulePropertiesLimitValidator validator = new StyleRulePropertiesLimitValidator(counter);
 
         final StyleRule rule = Mockito.mock(StyleRule.class);
@@ -27,8 +26,7 @@ public final class StyleRulePropertiesLimitValidatorTest {
 
     @Test
     public void validate2_ruleIsNotSplittableAndValueIsLowerThanLimit_doesNothing() throws ValidationException {
-        @SuppressWarnings("unchecked")
-        final RuleCounter<StyleRule> counter = Mockito.mock(RuleCounter.class);
+        final RuleCounter counter = Mockito.mock(RuleCounter.class);
         final StyleRulePropertiesLimitValidator validator = new StyleRulePropertiesLimitValidator(counter);
 
         final StyleRule rule = Mockito.mock(StyleRule.class);
@@ -45,8 +43,7 @@ public final class StyleRulePropertiesLimitValidatorTest {
 
     @Test
     public void validate2_ruleIsNotSplittableAndValueIsEqualToLimit_doesNothing() throws ValidationException {
-        @SuppressWarnings("unchecked")
-        final RuleCounter<StyleRule> counter = Mockito.mock(RuleCounter.class);
+        final RuleCounter counter = Mockito.mock(RuleCounter.class);
         final StyleRulePropertiesLimitValidator validator = new StyleRulePropertiesLimitValidator(counter);
 
         final StyleRule rule = Mockito.mock(StyleRule.class);
@@ -63,8 +60,7 @@ public final class StyleRulePropertiesLimitValidatorTest {
 
     @Test(expected = ValidationException.class)
     public void validate2_ruleIsNotSplittableAndValueIsBiggerThanLimit_throwsException() throws ValidationException {
-        @SuppressWarnings("unchecked")
-        final RuleCounter<StyleRule> counter = Mockito.mock(RuleCounter.class);
+        final RuleCounter counter = Mockito.mock(RuleCounter.class);
         final StyleRulePropertiesLimitValidator validator = new StyleRulePropertiesLimitValidator(counter);
 
         final StyleRule rule = Mockito.mock(StyleRule.class);

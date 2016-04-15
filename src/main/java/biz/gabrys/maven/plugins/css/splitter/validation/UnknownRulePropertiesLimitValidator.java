@@ -18,14 +18,14 @@ import biz.gabrys.maven.plugins.css.splitter.css.types.UnknownRule;
 
 final class UnknownRulePropertiesLimitValidator extends AbstractRulePropertiesLimitValidator<UnknownRule> {
 
-    private final RuleCounter<UnknownRule> counter;
+    private final RuleCounter counter;
 
     UnknownRulePropertiesLimitValidator() {
         this(new UnknownRuleCounter());
     }
 
     // for tests
-    UnknownRulePropertiesLimitValidator(final RuleCounter<UnknownRule> counter) {
+    UnknownRulePropertiesLimitValidator(final RuleCounter counter) {
         super(UnknownRule.class);
         this.counter = counter;
     }

@@ -10,8 +10,7 @@ public final class UnknownRulePropertiesLimitValidatorTest {
 
     @Test
     public void validate2_valueIsLowerThanLimit_doesNothing() throws ValidationException {
-        @SuppressWarnings("unchecked")
-        final RuleCounter<UnknownRule> counter = Mockito.mock(RuleCounter.class);
+        final RuleCounter counter = Mockito.mock(RuleCounter.class);
         final UnknownRulePropertiesLimitValidator validator = new UnknownRulePropertiesLimitValidator(counter);
 
         final UnknownRule rule = Mockito.mock(UnknownRule.class);
@@ -27,8 +26,7 @@ public final class UnknownRulePropertiesLimitValidatorTest {
 
     @Test
     public void validate2_valueIsEqualToLimit_doesNothing() throws ValidationException {
-        @SuppressWarnings("unchecked")
-        final RuleCounter<UnknownRule> counter = Mockito.mock(RuleCounter.class);
+        final RuleCounter counter = Mockito.mock(RuleCounter.class);
         final UnknownRulePropertiesLimitValidator validator = new UnknownRulePropertiesLimitValidator(counter);
 
         final UnknownRule rule = Mockito.mock(UnknownRule.class);
@@ -44,8 +42,7 @@ public final class UnknownRulePropertiesLimitValidatorTest {
 
     @Test(expected = ValidationException.class)
     public void validate2_valueIsBiggerThanLimit_throwsException() throws ValidationException {
-        @SuppressWarnings("unchecked")
-        final RuleCounter<UnknownRule> counter = Mockito.mock(RuleCounter.class);
+        final RuleCounter counter = Mockito.mock(RuleCounter.class);
         final UnknownRulePropertiesLimitValidator validator = new UnknownRulePropertiesLimitValidator(counter);
 
         final UnknownRule rule = Mockito.mock(UnknownRule.class);

@@ -15,8 +15,7 @@ public final class RulesLimitValidatorTest {
 
     @Test
     public void count_styleSheetIsEmpty_returnsZero() {
-        @SuppressWarnings("unchecked")
-        final RuleCounter<NodeRule> counter = Mockito.mock(RuleCounter.class);
+        final RuleCounter counter = Mockito.mock(RuleCounter.class);
         final int limit = 10;
         final RulesLimitValidator validator = new RulesLimitValidator(limit, counter);
 
@@ -31,8 +30,7 @@ public final class RulesLimitValidatorTest {
 
     @Test
     public void count_styleSheetIsNotEmpty_returnsCountedValue() {
-        @SuppressWarnings("unchecked")
-        final RuleCounter<NodeRule> counter = Mockito.mock(RuleCounter.class);
+        final RuleCounter counter = Mockito.mock(RuleCounter.class);
         final int limit = 10;
         final RulesLimitValidator validator = new RulesLimitValidator(limit, counter);
 
@@ -58,8 +56,7 @@ public final class RulesLimitValidatorTest {
 
     @Test
     public void validate_valueIsLowerThanLimit_doesNothing() throws ValidationException {
-        @SuppressWarnings("unchecked")
-        final RuleCounter<NodeRule> counter = Mockito.mock(RuleCounter.class);
+        final RuleCounter counter = Mockito.mock(RuleCounter.class);
         final int limit = 10;
         final RulesLimitValidator validator = new RulesLimitValidator(limit, counter);
 
@@ -79,8 +76,7 @@ public final class RulesLimitValidatorTest {
 
     @Test
     public void validate_valueIsEqualToLimit_doesNothing() throws ValidationException {
-        @SuppressWarnings("unchecked")
-        final RuleCounter<NodeRule> counter = Mockito.mock(RuleCounter.class);
+        final RuleCounter counter = Mockito.mock(RuleCounter.class);
         final int limit = 10;
         final RulesLimitValidator validator = new RulesLimitValidator(limit, counter);
 
@@ -100,8 +96,7 @@ public final class RulesLimitValidatorTest {
 
     @Test(expected = ValidationException.class)
     public void validate_valueIsBiggerThanLimit_throwsException() throws ValidationException {
-        @SuppressWarnings("unchecked")
-        final RuleCounter<NodeRule> counter = Mockito.mock(RuleCounter.class);
+        final RuleCounter counter = Mockito.mock(RuleCounter.class);
         final int limit = 10;
         final RulesLimitValidator validator = new RulesLimitValidator(limit, counter);
 
