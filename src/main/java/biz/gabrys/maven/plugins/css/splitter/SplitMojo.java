@@ -241,7 +241,7 @@ public class SplitMojo extends AbstractMojo {
         if (getLog().isDebugEnabled()) {
             getLog().debug("Job parameters:");
             getLog().debug("\tskip = " + skip);
-            getLog().debug("\tverbose = " + verbose + createCalculatedInfo(true));
+            getLog().debug("\tverbose = " + verbose + createCalculatedInfo(Boolean.TRUE));
             getLog().debug("\tforce = " + force);
             getLog().debug("\tsourceDirectory = " + sourceDirectory);
             getLog().debug("\toutputDirectory = " + outputDirectory);
