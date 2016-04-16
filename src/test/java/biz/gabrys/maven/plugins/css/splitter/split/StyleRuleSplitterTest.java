@@ -13,19 +13,29 @@ import biz.gabrys.maven.plugins.css.splitter.css.types.StyleRule;
 public final class StyleRuleSplitterTest {
 
     @Test
-    public void split2_ruleIsUnsplittable_returnsResultWithNullAsFirstValue() {
+    public void isSplittable2_ruleIsSplittable_returnsTrue() {
+        final NeighborsManager neighborsManager = Mockito.mock(NeighborsManager.class);
+        final StyleRuleSplitter splitter = new StyleRuleSplitter(neighborsManager);
+
+        final StyleRule rule = Mockito.mock(StyleRule.class);
+        Mockito.when(rule.isSplittable()).thenReturn(true);
+
+        final boolean splittable = splitter.isSplittable2(rule);
+
+        Assert.assertTrue("Should return true for splittable rule", splittable);
+    }
+
+    @Test
+    public void isSplittable2_ruleIsUnsplittable_returnsFalse() {
         final NeighborsManager neighborsManager = Mockito.mock(NeighborsManager.class);
         final StyleRuleSplitter splitter = new StyleRuleSplitter(neighborsManager);
 
         final StyleRule rule = Mockito.mock(StyleRule.class);
         Mockito.when(rule.isSplittable()).thenReturn(false);
 
-        final SplitResult<StyleRule> result = splitter.split2(rule, 0);
+        final boolean splittable = splitter.isSplittable2(rule);
 
-        Assert.assertNull("First rule should be equal to null", result.getFirst());
-        Assert.assertTrue("Second rule should be equal to rule", result.getSecond() == rule);
-        Mockito.verify(rule).isSplittable();
-        Mockito.verifyNoMoreInteractions(rule);
+        Assert.assertFalse("Should return false for unsplittable rule", splittable);
     }
 
     @Test
@@ -47,7 +57,7 @@ public final class StyleRuleSplitterTest {
 
         final SplitResult<StyleRule> result = splitter.split2(rule, 1);
 
-        final StyleRule firstRule = result.getFirst();
+        final StyleRule firstRule = result.getBefore();
         Assert.assertNotNull("First rule should not be equal to null", firstRule);
         final List<String> firstRuleSelectors = firstRule.getSelectors();
         Assert.assertEquals("First rule selectors quantity", selectors.size(), firstRuleSelectors.size());
@@ -56,7 +66,7 @@ public final class StyleRuleSplitterTest {
         Assert.assertEquals("First rule properties quantity", 1, firstRuleProperties.size());
         Assert.assertTrue("First rule contains first property", firstRuleProperties.contains(property1));
 
-        final StyleRule secondRule = result.getSecond();
+        final StyleRule secondRule = result.getAfter();
         Assert.assertNotNull("Second rule should not be equal to null", secondRule);
         final List<String> secondRuleSelectors = secondRule.getSelectors();
         Assert.assertEquals("Second rule selectors quantity", selectors.size(), secondRuleSelectors.size());

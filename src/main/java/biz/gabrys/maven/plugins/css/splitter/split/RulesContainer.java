@@ -12,11 +12,13 @@
  */
 package biz.gabrys.maven.plugins.css.splitter.split;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import biz.gabrys.maven.plugins.css.splitter.css.types.NodeRule;
 
-interface RuleSplitter<T extends NodeRule> {
+class RulesContainer<T extends NodeRule> {
 
-    boolean isSplittable(NodeRule rule);
-
-    SplitResult<T> split(NodeRule rule, int splitAfter);
+    protected final List<T> before = new LinkedList<T>();
+    protected final List<T> after = new LinkedList<T>();
 }

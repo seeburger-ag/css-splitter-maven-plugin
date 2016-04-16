@@ -13,11 +13,8 @@
 package biz.gabrys.maven.plugins.css.splitter.split;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import biz.gabrys.maven.plugins.css.splitter.counter.AnyRuleCounter;
 import biz.gabrys.maven.plugins.css.splitter.css.types.NodeRule;
@@ -27,62 +24,25 @@ import biz.gabrys.maven.plugins.css.splitter.css.types.StyleSheet;
 public class Splliter {
 
     private final int limit;
-    private final Map<Class<?>, RuleSplitter<? extends NodeRule>> splitters = new ConcurrentHashMap<Class<?>, RuleSplitter<? extends NodeRule>>();
-    private final AnyRuleCounter counter;
+    private final RulesSplitter<NodeRule> splitter;
 
     public Splliter(final int limit) {
         this.limit = limit;
-        counter = new AnyRuleCounter();
-        addSplitter(new ComplexRuleSplitter());
-        addSplitter(new StyleRuleSplitter());
-    }
-
-    private void addSplitter(final RuleSplitter<? extends NodeRule> splitter) {
-        splitters.put(splitter.getSupportedType(), splitter);
+        splitter = new RulesSplitter<NodeRule>(new AnyRuleCounter(), new AnyRuleSplitter());
     }
 
     public List<StyleSheet> split(final StyleSheet stylesheet) {
-        if (stylesheet.getRules().isEmpty()) {
-            return Arrays.asList(stylesheet);
-        }
         final List<List<NodeRule>> rulesMatrix = splitToMatrix(stylesheet.getRules());
         return convertToSheets(rulesMatrix);
     }
 
     private List<List<NodeRule>> splitToMatrix(final List<NodeRule> rules) {
         final List<List<NodeRule>> rulesMatrix = new LinkedList<List<NodeRule>>();
-
-        int value = limit;
-        List<NodeRule> currentRules = null;
-        NodeRule rule = rules.get(0);
-        while (rule != null) {
-            if (currentRules == null) {
-                currentRules = new LinkedList<NodeRule>();
-                rulesMatrix.add(currentRules);
-            }
-
-            final int count = counter.count(rule);
-            final int odds = value - count;
-            if (odds > 0) {
-                currentRules.add(rule);
-                value = odds;
-                rule = rule.getNext();
-                continue;
-            }
-
-            if (odds == 0) {
-                currentRules.add(rule);
-                rule = rule.getNext();
-            } else if (splitters.containsKey(rule.getClass())) {
-                final SplitResult<? extends NodeRule> result = splitters.get(rule.getClass()).split(rule, value);
-                final NodeRule firstRule = result.getFirst();
-                if (firstRule != null) {
-                    currentRules.add(firstRule);
-                }
-                rule = result.getSecond();
-            }
-            value = limit;
-            currentRules = null;
+        List<NodeRule> currentRules = rules;
+        while (!currentRules.isEmpty()) {
+            final RulesContainer<NodeRule> container = splitter.split(currentRules, limit);
+            rulesMatrix.add(container.before);
+            currentRules = container.after;
         }
         return rulesMatrix;
     }

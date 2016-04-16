@@ -22,14 +22,18 @@ abstract class AbstractRuleSplitter<T extends NodeRule> implements RuleSplitter<
         this.clazz = clazz;
     }
 
-    public Class<T> getSupportedType() {
-        return clazz;
+    public boolean isSplittable(final NodeRule rule) {
+        if (rule == null || rule.getClass() != clazz) {
+            return false;
+        }
+        return isSplittable2(clazz.cast(rule));
     }
 
-    public final SplitResult<T> split(final NodeRule rule, final int splitAfter) {
-        if (rule.getClass() != clazz) {
-            throw new IllegalArgumentException(
-                    String.format("Cannot cast an instance of the %s to the %s class!", rule.getClass().getName(), clazz.getName()));
+    protected abstract boolean isSplittable2(T rule);
+
+    public SplitResult<T> split(final NodeRule rule, final int splitAfter) {
+        if (!isSplittable(rule)) {
+            throw new IllegalArgumentException(String.format("The rule is unsplittable! Code:%n%s", rule));
         }
         return split2(clazz.cast(rule), splitAfter);
     }

@@ -12,93 +12,37 @@
  */
 package biz.gabrys.maven.plugins.css.splitter.split;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import biz.gabrys.maven.plugins.css.splitter.counter.RuleCounter;
 import biz.gabrys.maven.plugins.css.splitter.counter.StyleRuleCounter;
 import biz.gabrys.maven.plugins.css.splitter.css.types.ComplexRule;
 import biz.gabrys.maven.plugins.css.splitter.css.types.StyleRule;
 
 class ComplexRuleSplitter extends AbstractRuleSplitter<ComplexRule> {
 
-    private final RuleCounter counter;
-    private final RuleSplitter<StyleRule> splitter;
+    private final RulesSplitter<StyleRule> splitter;
     private final NeighborsManager neighborsManager;
 
     ComplexRuleSplitter() {
-        this(new StyleRuleCounter(), new StyleRuleSplitter(), new NeighborsManager());
+        this(new RulesSplitter<StyleRule>(new StyleRuleCounter(), new StyleRuleSplitter()), new NeighborsManager());
     }
 
     // for tests
-    ComplexRuleSplitter(final RuleCounter counter, final RuleSplitter<StyleRule> splitter, final NeighborsManager neighborsManager) {
+    ComplexRuleSplitter(final RulesSplitter<StyleRule> splitter, final NeighborsManager neighborsManager) {
         super(ComplexRule.class);
-        this.counter = counter;
         this.splitter = splitter;
         this.neighborsManager = neighborsManager;
     }
 
     @Override
+    protected boolean isSplittable2(final ComplexRule rule) {
+        return true;
+    }
+
+    @Override
     protected SplitResult<ComplexRule> split2(final ComplexRule rule, final int splitAfter) {
-        final RulesContainer container = splitRules(rule.getRules(), splitAfter);
-        final ComplexRule first = new ComplexRule(rule.getType(), rule.getSelectors(), container.first);
-        final ComplexRule second = new ComplexRule(rule.getType(), rule.getSelectors(), container.second);
+        final RulesContainer<StyleRule> container = splitter.split(rule.getRules(), splitAfter);
+        final ComplexRule first = new ComplexRule(rule.getType(), rule.getSelectors(), container.before);
+        final ComplexRule second = new ComplexRule(rule.getType(), rule.getSelectors(), container.after);
         neighborsManager.fill(rule, first, second);
         return new SplitResult<ComplexRule>(first, second);
-    }
-
-    RulesContainer splitRules(final List<StyleRule> rules, final int splitAfter) {
-        final RulesContainer container = new RulesContainer();
-        final ValueAndIndex info = new ValueAndIndex(splitAfter);
-        processBeforeSplitPoint(rules, container, info);
-        if (info.value != 0) {
-            processSplitPoint(rules, container, info);
-        }
-        processAfterSplitPoint(rules, container, info);
-        return container;
-    }
-
-    private void processBeforeSplitPoint(final List<StyleRule> rules, final RulesContainer container, final ValueAndIndex info) {
-        while (true) {
-            final StyleRule styleRule = rules.get(info.index);
-            final int count = counter.count(styleRule);
-            final int odds = info.value - count;
-            if (odds < 0) {
-                break;
-            }
-            container.first.add(styleRule);
-            info.value = odds;
-            ++info.index;
-        }
-    }
-
-    private void processSplitPoint(final List<StyleRule> rules, final RulesContainer container, final ValueAndIndex info) {
-        final StyleRule styleRule = rules.get(info.index);
-        ++info.index;
-        final SplitResult<StyleRule> result = splitter.split(styleRule, info.value);
-        container.first.add(result.getFirst());
-        container.second.add(result.getSecond());
-    }
-
-    private static void processAfterSplitPoint(final List<StyleRule> rules, final RulesContainer container, final ValueAndIndex info) {
-        if (info.index < rules.size()) {
-            container.second.addAll(rules.subList(info.index, rules.size()));
-        }
-    }
-
-    static class RulesContainer {
-
-        protected final List<StyleRule> first = new LinkedList<StyleRule>();
-        protected final List<StyleRule> second = new LinkedList<StyleRule>();
-    }
-
-    private static class ValueAndIndex {
-
-        private int value;
-        private int index;
-
-        ValueAndIndex(final int value) {
-            this.value = value;
-        }
     }
 }

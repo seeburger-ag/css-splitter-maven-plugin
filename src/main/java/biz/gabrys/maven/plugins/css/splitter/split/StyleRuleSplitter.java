@@ -32,11 +32,12 @@ class StyleRuleSplitter extends AbstractRuleSplitter<StyleRule> {
     }
 
     @Override
-    protected SplitResult<StyleRule> split2(final StyleRule rule, final int splitAfter) {
-        if (!rule.isSplittable()) {
-            return new SplitResult<StyleRule>(null, rule);
-        }
+    protected boolean isSplittable2(final StyleRule rule) {
+        return rule.isSplittable();
+    }
 
+    @Override
+    protected SplitResult<StyleRule> split2(final StyleRule rule, final int splitAfter) {
         final List<StyleProperty> properties = rule.getProperties();
         final StyleRule first = new StyleRule(rule.getSelectors(), properties.subList(0, splitAfter));
         final StyleRule second = new StyleRule(rule.getSelectors(), properties.subList(splitAfter, properties.size()));
