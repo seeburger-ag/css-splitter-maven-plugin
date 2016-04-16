@@ -22,7 +22,7 @@ abstract class AbstractRuleSplitter<T extends NodeRule> implements RuleSplitter<
         this.clazz = clazz;
     }
 
-    public boolean isSplittable(final NodeRule rule) {
+    public final boolean isSplittable(final NodeRule rule) {
         if (rule == null || rule.getClass() != clazz) {
             return false;
         }
@@ -31,7 +31,7 @@ abstract class AbstractRuleSplitter<T extends NodeRule> implements RuleSplitter<
 
     protected abstract boolean isSplittable2(T rule);
 
-    public SplitResult<T> split(final NodeRule rule, final int splitAfter) {
+    public final SplitResult<T> split(final NodeRule rule, final int splitAfter) {
         if (!isSplittable(rule)) {
             throw new IllegalArgumentException(String.format("The rule is unsplittable! Code:%n%s", rule));
         }

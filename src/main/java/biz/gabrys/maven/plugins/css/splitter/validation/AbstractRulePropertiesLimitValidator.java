@@ -22,11 +22,11 @@ abstract class AbstractRulePropertiesLimitValidator<T extends NodeRule> implemen
         this.clazz = clazz;
     }
 
-    public boolean isSupportedType(final NodeRule rule) {
+    public final boolean isSupportedType(final NodeRule rule) {
         return rule != null && rule.getClass() == clazz;
     }
 
-    public void validate(final NodeRule rule, final int limit) throws ValidationException {
+    public final void validate(final NodeRule rule, final int limit) throws ValidationException {
         if (!isSupportedType(rule)) {
             throw new IllegalArgumentException(String.format("Cannot cast an instance of the %s to the %s class!",
                     rule == null ? "null" : rule.getClass().getName(), clazz.getName()));

@@ -21,4 +21,14 @@ class RulesContainer<T extends NodeRule> {
 
     protected final List<T> before = new LinkedList<T>();
     protected final List<T> after = new LinkedList<T>();
+
+    RulesContainer() {
+        // do nothing
+    }
+
+    // for tests
+    RulesContainer(final List<T> before, final List<T> after) {
+        this.before.addAll(before);
+        this.after.addAll(after);
+    }
 }

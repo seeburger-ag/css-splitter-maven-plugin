@@ -13,6 +13,7 @@
 package biz.gabrys.maven.plugins.css.splitter.split;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,25 +21,32 @@ import biz.gabrys.maven.plugins.css.splitter.counter.AnyRuleCounter;
 import biz.gabrys.maven.plugins.css.splitter.css.types.NodeRule;
 import biz.gabrys.maven.plugins.css.splitter.css.types.StyleSheet;
 
-//TODO add tests
 public class Splliter {
 
     private final int limit;
     private final RulesSplitter<NodeRule> splitter;
 
     public Splliter(final int limit) {
+        this(limit, new RulesSplitter<NodeRule>(new AnyRuleCounter(), new AnyRuleSplitter()));
+    }
+
+    // for tests
+    Splliter(final int limit, final RulesSplitter<NodeRule> splitter) {
         this.limit = limit;
-        splitter = new RulesSplitter<NodeRule>(new AnyRuleCounter(), new AnyRuleSplitter());
+        this.splitter = splitter;
     }
 
     public List<StyleSheet> split(final StyleSheet stylesheet) {
-        final List<List<NodeRule>> rulesMatrix = splitToMatrix(stylesheet.getRules());
+        if (stylesheet.getRules().isEmpty()) {
+            return Arrays.asList(stylesheet);
+        }
+        final List<List<NodeRule>> rulesMatrix = splitToMatrix(stylesheet);
         return convertToSheets(rulesMatrix);
     }
 
-    private List<List<NodeRule>> splitToMatrix(final List<NodeRule> rules) {
+    private List<List<NodeRule>> splitToMatrix(final StyleSheet stylesheet) {
         final List<List<NodeRule>> rulesMatrix = new LinkedList<List<NodeRule>>();
-        List<NodeRule> currentRules = rules;
+        List<NodeRule> currentRules = stylesheet.getRules();
         while (!currentRules.isEmpty()) {
             final RulesContainer<NodeRule> container = splitter.split(currentRules, limit);
             rulesMatrix.add(container.before);
@@ -47,7 +55,7 @@ public class Splliter {
         return rulesMatrix;
     }
 
-    private List<StyleSheet> convertToSheets(final List<List<NodeRule>> rulesMatrix) {
+    private static List<StyleSheet> convertToSheets(final List<List<NodeRule>> rulesMatrix) {
         final List<StyleSheet> sheets = new ArrayList<StyleSheet>(rulesMatrix.size());
         for (final List<NodeRule> sheetRules : rulesMatrix) {
             sheets.add(new StyleSheet(sheetRules));

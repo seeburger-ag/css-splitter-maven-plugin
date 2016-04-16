@@ -13,24 +13,22 @@
 package biz.gabrys.maven.plugins.css.splitter.split;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import biz.gabrys.maven.plugins.css.splitter.css.types.NodeRule;
 
-// TODO add tests
 class AnyRuleSplitter implements RuleSplitter<NodeRule> {
 
-    private final List<RuleSplitter<? extends NodeRule>> splitters;
+    private final List<RuleSplitter<? extends NodeRule>> splitters = new ArrayList<RuleSplitter<? extends NodeRule>>();
 
-    @SuppressWarnings("unchecked")
     AnyRuleSplitter() {
-        this(Arrays.<RuleSplitter<? extends NodeRule>>asList(new ComplexRuleSplitter(), new StyleRuleSplitter()));
+        splitters.add(new ComplexRuleSplitter());
+        splitters.add(new StyleRuleSplitter());
     }
 
     // for tests
     AnyRuleSplitter(final List<RuleSplitter<? extends NodeRule>> splitters) {
-        this.splitters = new ArrayList<RuleSplitter<? extends NodeRule>>(splitters);
+        this.splitters.addAll(splitters);
     }
 
     public boolean isSplittable(final NodeRule rule) {
