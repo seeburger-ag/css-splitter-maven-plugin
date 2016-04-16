@@ -16,7 +16,7 @@ import java.util.List;
 
 public abstract class AbstractTextRule extends NodeRule {
 
-    protected static final String INDENTATION = "\t";
+    protected static final String INDENTATION = "  ";
 
     protected abstract List<String> getLines();
 
