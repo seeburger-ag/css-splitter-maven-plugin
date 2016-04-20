@@ -4,7 +4,7 @@
 
     <groupId>com.seeburger.fork</groupId>
     <artifactId>css-splitter-maven-plugin</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.9.1.SEE1</version>
     <packaging>maven-plugin</packaging>
     <name>CSS Splitter Maven Plugin</name>
     <description>Splits CSS stylesheets to smaller files.</description>
@@ -43,7 +43,7 @@
         <connection>scm:git:git://github.com/seeburger-ag/css-splitter-maven-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:seeburger-ag/css-splitter-maven-plugin.git</developerConnection>
         <url>https://github.com/seeburger-ag/css-splitter-maven-plugin/</url>
-      <tag>HEAD</tag>
+      <tag>css-splitter-maven-plugin-0.9.1.SEE1</tag>
     </scm>
 
     <issueManagement>
