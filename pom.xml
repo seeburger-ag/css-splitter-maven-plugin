@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>biz.gabrys.maven.plugins</groupId>
+    <groupId>com.seeburger.fork</groupId>
     <artifactId>css-splitter-maven-plugin</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
@@ -44,26 +44,24 @@
         <developerConnection>scm:git:git@github.com:seeburger-ag/css-splitter-maven-plugin.git</developerConnection>
         <url>https://github.com/seeburger-ag/css-splitter-maven-plugin/</url>
       <tag>HEAD</tag>
-  </scm>
+    </scm>
 
     <issueManagement>
         <system>GitHub</system>
         <url>https://github.com/gabrysbiz/css-splitter-maven-plugin/issues</url>
     </issueManagement>
-    <ciManagement>
-        <system>travis</system>
-        <url>https://travis-ci.org/gabrysbiz/css-splitter-maven-plugin</url>
-    </ciManagement>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>release</id>
+            <name>SEE Release Distribution Repository</name>
+            <url>http://repo.seeburger.de/archiva/repository/release/</url>
         </repository>
+        <snapshotRepository>
+            <id>snapshot</id>
+            <name>SEE Development Snapshot Repository</name>
+            <url>http://repo.seeburger.de/archiva/repository/snapshot/</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <properties>
